@@ -1,0 +1,2 @@
+telethon==1.16.1
+chatgpt==0.0.1
