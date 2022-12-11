@@ -1,10 +1,8 @@
 import os
 from telethon import TelegramClient, events
-from chatgpt import ChatGPT
+from chatgpt.models.chatgpt import ChatGPT
 
 bot_token = os.environ['BOT_TOKEN']
-#api_id = os.environ['API_ID']
-#api_hash = os.environ['API_HASH']
 
 client = TelegramClient(bot_token, api_id=None, api_hash=None)
 client.start(bot_token=bot_token)
