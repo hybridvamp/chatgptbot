@@ -1,6 +1,6 @@
 import os
 from telethon import TelegramClient, events
-from chatgpt.models.chatgpt import ChatGPT
+from chatgpt.model import ChatGPT
 
 bot_token = os.environ['BOT_TOKEN']
 
