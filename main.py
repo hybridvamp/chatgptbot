@@ -26,8 +26,6 @@ async def message_handler(event):
     if event.message.message.strip().startswith("/ask"):
         # Send message to notify user that response is being generated
         await event.reply("generating response...")
-        response = await generate_response()
-        await event.reply(response)
 
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
