@@ -4,7 +4,7 @@ FROM python:3.9
 COPY requirements.txt /app/requirements.txt
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
 # Copy the main script
 COPY main.py /app/main.py
@@ -13,4 +13,4 @@ COPY main.py /app/main.py
 WORKDIR /app
 
 # Start the script
-CMD ["python", "main.py"]
+CMD ["python3", "main.py"]
