@@ -38,10 +38,11 @@ async def message_handler(event):
             n=1,
             stop=None,
             temperature=0.5,
-            callback=lambda response: handle_response(event, response)
+            callback=handle_response
         )
 
-def handle_response(event, response):
+
+def handle_response(response):
     # Create a Telegraph article
     headers = {
         'Content-Type': 'application/json',
