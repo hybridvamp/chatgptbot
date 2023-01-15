@@ -1,8 +1,16 @@
 FROM python:3.9
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Copy the requirements file
+COPY requirements.txt /app/requirements.txt
 
-COPY . .
+# Install the dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
+# Copy the main script
+COPY main.py /app/main.py
+
+# Set the working directory
+WORKDIR /app
+
+# Start the script
 CMD ["python", "main.py"]
