@@ -24,7 +24,7 @@ async def start_handler(event):
 # Handle all other messages
 @client.on(telethon.events.NewMessage)
 async def message_handler(event):
-    if event.message.to_id.chat_id == GROUP_ID and event.message.message.strip().startswith("/ask"):
+    if event.message.to_id.channel_id == GROUP_ID and event.message.message.strip().startswith("/ask"):
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
