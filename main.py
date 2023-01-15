@@ -16,7 +16,7 @@ openai.api_key = openai_api_key
 # /start command
 @client.on(telethon.events.NewMessage(pattern='/start'))
 async def start_handler(event):
-    await event.respond("Hello! I am a Telegram bot powered by the OpenAI ChatGPT model.\nTo use me send your questions along with /ask command")
+    await event.respond("Hello! I am a Telegram bot powered by the OpenAI ChatGPT model.\nTo use me send your questions along with /ask command.\n\n(c) Made by @HYBRID_Bots")
 
 # Handle all other messages
 @client.on(telethon.events.NewMessage)
@@ -37,8 +37,6 @@ async def message_handler(event):
 
         # Send the response to the user
         await event.respond(response.choices[0].text)
-    elif isinstance(event.message.to_id, InputPeerUser) and event.message.to_id.user_id != OWNER_ID:
-        await event.respond("join @HYBRID_Chat to use")
 
 # Run the bot
 client.run_until_disconnected()
