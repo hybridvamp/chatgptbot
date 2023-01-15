@@ -42,6 +42,7 @@ async def message_handler(event):
         )
         link = handle_response(event, response)
         await event.reply(link)
+        await event.message.delete()
 
 def handle_response(event, response):
     # Create a Telegraph article
