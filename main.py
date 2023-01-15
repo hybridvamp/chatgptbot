@@ -9,7 +9,8 @@ api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
-client = TelegramClient(api_id, api_hash, bot_token=bot_token).start()
+client = TelegramClient(session='session_name', api_id=api_id, api_hash=api_hash)
+client.start(bot_token=bot_token)
 
 openai.api_key = openai_api_key
 
