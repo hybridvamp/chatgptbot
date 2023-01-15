@@ -2,11 +2,13 @@ import openai
 import os
 import telethon
 from telethon.sync import TelegramClient
+import requests
 
 api_id = os.environ.get("API_ID")
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 openai_api_key = os.environ.get("OPENAI_API_KEY")
+telegraph_token = os.environ.get("TELEGRAPH_TOKEN")
 
 client = TelegramClient(session='session_name', api_id=api_id, api_hash=api_hash)
 client.start(bot_token=bot_token)
@@ -22,6 +24,9 @@ async def start_handler(event):
 @client.on(telethon.events.NewMessage)
 async def message_handler(event):
     if event.message.message.strip().startswith("/ask"):
+        # Send message to notify user that response is being generated
+        await event.respond("Generating response...")
+
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
@@ -32,11 +37,27 @@ async def message_handler(event):
             max_tokens=2048,
             n=1,
             stop=None,
-            temperature=0.5
+            temperature=0.5,
+            callback=handle_response(event, response)
         )
 
-        # Send the response to the user
-        await event.respond(response.choices[0].text)
+def handle_response(event, response):
+    # Create a Telegraph article
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Token {telegraph_token}'
+    }
+    data = {
+        'access_token': telegraph_token,
+        'title': 'ChatGPT Response',
+        'content': [{'tag': 'p', 'children': [{'text': response.choices[0].text}]}]
+    }
+    r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
+    r_json = r.json()
+    link = f"https://telegra.ph/{r_json['path']}"
+
+    # Send the Telegraph link to the user
+    event.respond(link)
 
 # Run the bot
 client.run_until_disconnected()
