@@ -55,7 +55,7 @@ def handle_response(event, response):
     }
     r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
     r_json = r.json()
-    link = f"https://telegra.ph/{r_json['path']}"
+    link = f"https://telegra.ph/{r_json['result']['path']}"
     return link
 
     # Send the Telegraph link to the user
