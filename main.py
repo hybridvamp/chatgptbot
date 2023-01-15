@@ -40,7 +40,7 @@ async def message_handler(event):
             temperature=0.5,
         )
         link = handle_response(event, response)
-        await event.respond(link)
+        #await event.respond(link)
 
 def handle_response(event, response):
     # Create a Telegraph article
