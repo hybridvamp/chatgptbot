@@ -24,7 +24,7 @@ async def start_handler(event):
 # Handle all other messages
 @client.on(telethon.events.NewMessage)
 async def message_handler(event):
-    if event.message.to_id.channel_id == GROUP_ID and event.message.message.strip().startswith("/ask"):
+    if event.message.to_id.chat_id == GROUP_ID and event.message.message.strip().startswith("/ask"):
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
@@ -40,8 +40,8 @@ async def message_handler(event):
 
         # Send the response to the user
         await event.respond(response.choices[0].text)
-    elif event.message.to_id.user_id != OWNER_ID and event.message.to_id.chat_id is None:
-        await event.respond("I am a group only bot. Please join @HYBRID_Chat to use")
+    elif isinstance(event.message.to_id, InputPeerUser) and event.message.to_id.user_id != OWNER_ID:
+        await event.respond("join @HYBRID_Chat to use")
 
 # Run the bot
 client.run_until_disconnected()
