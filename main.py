@@ -26,23 +26,23 @@ async def message_handler(event):
     if event.message.message.strip().startswith("/ask"):
         # Send message to notify user that response is being generated
         await event.reply("generating response...")
-
+        
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
         # Pass event object to callback function
-        openai.Completion.create(
+        response = openai.Completion.create(
             engine="text-davinci-002",
             prompt=f"{message_text}\n",
             max_tokens=2048,
             n=1,
             stop=None,
             temperature=0.5,
-            callback=handle_response
         )
+        link = handle_response(event, response)
+        await event.respond(link)
 
-
-def handle_response(response):
+def handle_response(event, response):
     # Create a Telegraph article
     headers = {
         'Content-Type': 'application/json',
@@ -56,6 +56,7 @@ def handle_response(response):
     r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
     r_json = r.json()
     link = f"https://telegra.ph/{r_json['path']}"
+    return link
 
     # Send the Telegraph link to the user
     event.respond(link)
