@@ -26,7 +26,7 @@ async def start_handler(event):
 async def message_handler(event):
     if event.message.message.strip().startswith("/ask"):
         # Send message to notify user that response is being generated
-        await event.reply("generating response...")
+        generating_message = await event.reply("generating response...")
         
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
@@ -42,7 +42,7 @@ async def message_handler(event):
         )
         link = handle_response(event, response)
         await event.reply(link)
-        await event.message.delete()
+        await generating_message.delete()
 
 def handle_response(event, response):
     # Create a Telegraph article
