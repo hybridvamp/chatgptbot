@@ -55,6 +55,8 @@ def handle_response(event, response):
     }
     r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
     r_json = r.json()
+    event.respond(r_json)
+    print(r_json)
     link = f"https://telegra.ph/{r_json['result']['path']}"
     return link
 
