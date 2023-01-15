@@ -3,6 +3,7 @@ import os
 import telethon
 from telethon.sync import TelegramClient
 import json
+import requests
 
 api_id = os.environ.get("API_ID")
 api_hash = os.environ.get("API_HASH")
@@ -39,7 +40,7 @@ async def message_handler(event):
             stop=None,
             temperature=0.5,
         )
-        link = handle_response(response)
+        link = handle_response(event, response)
         await event.respond(link)
 
 def handle_response(response):
