@@ -56,11 +56,11 @@ def handle_response(event, response):
     r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
     r_json = r.json()
     print(r_json)
-    link = f"https://telegra.ph/{r_json['result']['path']}"
-    return link
+    #link = f"https://telegra.ph/{r_json['result']['path']}"
+    #return link
 
     # Send the Telegraph link to the user
-    event.respond(link)
+    #event.respond(link)
 
 # Run the bot
 client.run_until_disconnected()
