@@ -30,15 +30,15 @@ async def message_handler(event):
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
-        # Use the OpenAI API to generate a response
-        response = openai.Completion.create(
+        # Pass event object to callback function
+        openai.Completion.create(
             engine="text-davinci-002",
             prompt=f"{message_text}\n",
             max_tokens=2048,
             n=1,
             stop=None,
             temperature=0.5,
-            callback=handle_response(event, response)
+            callback=lambda response: handle_response(event, response)
         )
 
 def handle_response(event, response):
