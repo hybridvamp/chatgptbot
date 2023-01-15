@@ -4,16 +4,14 @@ import telethon
 from telethon.sync import TelegramClient
 from telethon.tl.types import InputPeerUser
 
-# Set your API key
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+api_id = os.environ.get("API_ID")
+api_hash = os.environ.get("API_HASH")
+bot_token = os.environ.get("BOT_TOKEN")
+openai_api_key = os.environ.get("OPENAI_API_KEY")
 
-# Telegram API credentials
-api_id = os.environ.get("TELEGRAM_API_ID")
-api_hash = os.environ.get("TELEGRAM_API_HASH")
-bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+client = TelegramClient(api_id, api_hash, bot_token=bot_token).start()
 
-# Create the Telegram client
-client = TelegramClient('session_name', api_id, api_hash, bot_token=bot_token).start()
+openai.api_key = openai_api_key
 
 # Handle the '/start' command
 @client.on(telethon.events.NewMessage(pattern='/start'))
