@@ -1,46 +1,43 @@
-import openai_secret_manager
 import openai
 import os
-from telethon import TelegramClient, events
+import telethon
+from telethon.sync import TelegramClient
+from telethon.tl.types import InputPeerUser
 
-# Use your own API_ID and API_HASH from https://my.telegram.org
-api_id = os.environ['API_ID']
-api_hash = os.environ['API_HASH']
+# Set your API key
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-# Use the BOT_TOKEN you got from the BotFather
-bot_token = os.environ['BOT_TOKEN']
+# Telegram API credentials
+api_id = os.environ.get("TELEGRAM_API_ID")
+api_hash = os.environ.get("TELEGRAM_API_HASH")
+bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 
-# Create a new Telegram client using your API ID, Hash and Bot token
+# Create the Telegram client
 client = TelegramClient('session_name', api_id, api_hash, bot_token=bot_token).start()
 
-def get_response(prompt):
-    secrets = openai_secret_manager.get_secret("openai")
-    openai_api_key = secrets["api_key"]
+# Handle the '/start' command
+@client.on(telethon.events.NewMessage(pattern='/start'))
+async def start_handler(event):
+    await event.respond("Hello! I am a Telegram bot powered by the OpenAI ChatGPT model. How can I help you today?")
+
+# Handle all other messages
+@client.on(telethon.events.NewMessage)
+async def message_handler(event):
+    # Get the message text
+    message_text = event.message.message.strip()
+
+    # Use the OpenAI API to generate a response
     response = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=prompt,
-        api_key=openai_api_key
+        prompt=f"{message_text}\n",
+        max_tokens=2048,
+        n = 1,
+        stop=None,
+        temperature=0.5
     )
-    return response.choices[0].text
 
-# Define a callback function that will be called when the bot receives a message
-@client.on(events.NewMessage(incoming=True))
-async def handle_message(event):
-    # Get the message text
-    message_text = event.message.message
+    # Send the response to the user
+    await event.respond(response.choices[0].text)
 
-    # Check if the message is a command
-    if message_text.startswith('/start'):
-        # Send a greeting message to the user
-        await event.respond("Hello! I am a language model trained by OpenAI. How can I help you today?")
-    else:
-        # Send a message to let the user know that the bot is generating a response
-        await event.respond("generating response...")
-        # Send the message text to me
-        response_text = get_response(message_text)
-
-        # Send the response text back to the user
-        await event.respond(response_text)
-
-# Start the bot
+# Run the bot
 client.run_until_disconnected()
