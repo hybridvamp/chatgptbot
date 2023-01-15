@@ -43,7 +43,7 @@ async def message_handler(event):
         link = handle_response(event, response)
         await event.respond(link)
 
-def handle_response(response):
+def handle_response(event, response):
     # Create a Telegraph article
     headers = {
         'Content-Type': 'application/json',
