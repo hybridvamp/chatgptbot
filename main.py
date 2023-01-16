@@ -85,16 +85,15 @@ def handle_response(event, response):
 @client.on(telethon.events.NewMessage(pattern='/stats'))
 async def stats_handler(event):
     message = 'API key usage statistics: \n\n'
-    for index,api_key in enumerate(api_keys):
+    for index, api_key in enumerate(api_keys):
         if not api_key:
             message += f'API key {index+1} : Not provided\n'
             continue
-        usage = openai.Usage.list(api_key=api_key)
+        usage = openai.Api.usage(api_key=api_key)
         message += f'API key {index+1} :\n'
         message += f'Queries today: {usage.queries_today} \n'
         message += f'Queries this month: {usage.queries_month} \n'
         message += f'Queries total: {usage.queries_total} \n'
-        message += f'Model usage today: {usage.model_usage_today} \n'
     await event.respond(message)
 
 # Run the bot
