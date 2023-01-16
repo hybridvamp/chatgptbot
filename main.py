@@ -72,5 +72,22 @@ async def stats_handler(event):
         message += f'Status: {status.status} \n'
     await event.respond(message)
 
+def handle_response(event, response):
+    # Create a Telegraph article
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Token {telegraph_token}'
+    }
+    data = {
+        'access_token': telegraph_token,
+        'title': 'ChatGPT Response',
+        'content': [{'tag': 'p', 'children': [response.choices[0].text]}]
+    }
+    r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
+    r_json = r.json()
+    if r.status_code != 200 or not r_json['ok']:
+        return "Error creating telegraph page"
+    return f"https://telegra.ph/{r_json['result']['path']}"
+
 # Run the bot
 client.run_until_disconnected()
