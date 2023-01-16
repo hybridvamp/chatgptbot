@@ -67,13 +67,15 @@ async def stats_handler(event):
         if not api_key:
             message += f'API key {index+1} : Not provided\n'
             continue
+        headers = {'Authorization': f'Bearer {api_key}'}
         try:
-            openai.api_key = api_key
-            response = openai.Api.status()
-            message += f'API key {index+1} :\n'
-            message += f'Status: {response.status} \n'
-        except openai.exceptions.OpenAiError as e:
-            message += f'API key {index+1} : Invalid\n'
+            response = requests.get('https://api.openai.com/v1/engines/davinci/completions', headers=headers)
+            if response.status_code == 200:
+                message += f'API key {index+1} : Active\n'
+            else:
+                message += f'API key {index+1} : Inactive/Invalid\n'
+        except requests.exceptions.RequestException as e:
+            message += f'API key {index+1} : Request Error\n'
     await event.respond(message)
 
 def handle_response(event, response):
