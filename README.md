@@ -10,7 +10,6 @@
     <img src="https://img.shields.io/github/issues-pr/hybridvamp/chatgptbot" alt="Pull Requests">
   </a>
 </p>
-<h1>ChatGPT Telegram Bot</h1>
 <p>This is a Telegram bot that uses the OpenAI's GPT-3 model to answer questions and generate responses. The bot is written in Python and uses the Telethon library to interact with the Telegram API, and the OpenAI API to communicate with the GPT-3 model. It also uses the Telegraph API to create a Telegraph article of the response and sends the link to the user as a reply.</p>
 <h2>How to use</h2>
 <p>To use the bot, send your questions along with the /ask command. For example, if you want to ask "What is the weather today?", you should send the message "/ask What is the weather today?"</p>
