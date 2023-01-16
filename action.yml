@@ -1,0 +1,2 @@
+- name: Auto-add contributors
+  uses: BobAnkh/add-contributors@v0.2.2
