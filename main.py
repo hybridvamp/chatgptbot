@@ -33,23 +33,13 @@ async def message_handler(event):
     if event.message.message.strip().startswith("/ask"):
         # Send message to notify user that response is being generated
         generating_message = await event.reply("generating response...")
-        
+
         # Get the message text
         message_text = event.message.message.strip().replace("/ask","",1).strip()
 
-        # Pass event object to callback function
-        try:
-            response = openai.Completion.create(
-                engine="text-davinci-002",
-                prompt=f"{message_text}\n",
-                max_tokens=2048,
-                n=1,
-                stop=None,
-                temperature=0.5,
-            )
-        except openai.exceptions.OpenAiError as e:
-            if 'usage cap exceeded' in str(e):
-                switch_api_key()
+        while True:
+            try:
+                # Pass event object to callback function
                 response = openai.Completion.create(
                     engine="text-davinci-002",
                     prompt=f"{message_text}\n",
@@ -58,42 +48,28 @@ async def message_handler(event):
                     stop=None,
                     temperature=0.5,
                 )
-            else:
-                raise e
+                break
+            except openai.exceptions.OpenAiError as e:
+                if 'Usage Limit Exceeded' in str(e):
+                    switch_api_key()
+                else:
+                    raise e
+
         link = handle_response(event, response)
         await event.reply(link)
         await generating_message.delete()
-
-def handle_response(event, response):
-    # Create a Telegraph article
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Token {telegraph_token}'
-    }
-    data = {
-        'access_token': telegraph_token,
-        'title': 'ChatGPT Response',
-        'content': [{'tag': 'p', 'children': [response.choices[0].text]}]
-    }
-    r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
-    r_json = r.json()
-    if r.status_code != 200 or not r_json['ok']:
-        return "Error creating telegraph page"
-    return f"https://telegra.ph/{r_json['result']['path']}"
 
 # /stats command
 @client.on(telethon.events.NewMessage(pattern='/stats'))
 async def stats_handler(event):
     message = 'API key usage statistics: \n\n'
-    for index, api_key in enumerate(api_keys):
+    for index,api_key in enumerate(api_keys):
         if not api_key:
             message += f'API key {index+1} : Not provided\n'
             continue
-        usage = openai.Api.usage(api_key=api_key)
+        status = openai.Api.status(api_key=api_key)
         message += f'API key {index+1} :\n'
-        message += f'Queries today: {usage.queries_today} \n'
-        message += f'Queries this month: {usage.queries_month} \n'
-        message += f'Queries total: {usage.queries_total} \n'
+        message += f'Status: {status.status} \n'
     await event.respond(message)
 
 # Run the bot
