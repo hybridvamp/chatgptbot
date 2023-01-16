@@ -67,7 +67,7 @@ async def stats_handler(event):
         if not api_key:
             message += f'API key {index+1} : Not provided\n'
             continue
-        status = openai.Api.status(api_key=api_key)
+        status = openai.Api.status()
         message += f'API key {index+1} :\n'
         message += f'Status: {status.status} \n'
     await event.respond(message)
