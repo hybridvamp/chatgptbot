@@ -17,7 +17,7 @@
 <p>To run the bot, you need to have the following things:</p>
 <ul>
   <li>A Telegram account and a bot token</li>
-  <li>An OpenAI API key</li>
+  <li>An OpenAI API key (if you have more than one key the bot will select next key in case of usage exceed error)</li>
   <li>A Telegraph API token</li>
   <li>Python 3.8 or higher</li>
 </ul>
@@ -34,7 +34,11 @@
   <li>API_ID</li>
   <li>API_HASH</li>
   <li>BOT_TOKEN</li>
-  <li>OPENAI_API_KEY</li>
+  <li>API_KEY1</li>
+  <li>API_KEY2 (optional)</li>
+  <li>API_KEY3 (optional)</li>
+  <li>API_KEY4 (optional)</li>
+  <li>API_KEY5 (optional)</li>
   <li>TELEGRAPH_TOKEN</li>
 </ul>
 <p>Finally, you can run the bot by running the following command:</p>
