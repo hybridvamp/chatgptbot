@@ -93,7 +93,7 @@ def handle_response(event, response):
     r_json = r.json()
     if r.status_code != 200 or not r_json['ok']:
         return "Error creating telegraph page"
-    return f"https://telegra.ph/{r_json['result']['path']}"
+    return f"https://graph.org/{r_json['result']['path']}"
 
 # Run the bot
 client.run_until_disconnected()
