@@ -63,14 +63,17 @@ async def message_handler(event):
 @client.on(telethon.events.NewMessage(pattern='/stats'))
 async def stats_handler(event):
     message = 'API key usage statistics: \n\n'
-    for index, api_key in enumerate(api_keys):
+    for index,api_key in enumerate(api_keys):
         if not api_key:
             message += f'API key {index+1} : Not provided\n'
             continue
-        openai.api_key = api_key
-        status = openai.api_key.status()
-        message += f'API key {index+1} :\n'
-        message += f'Status: {status["status"]}\n'
+        try:
+            openai.api_key = api_key
+            response = openai.Api.status()
+            message += f'API key {index+1} :\n'
+            message += f'Status: {response.status} \n'
+        except openai.exceptions.OpenAiError as e:
+            message += f'API key {index+1} : Invalid\n'
     await event.respond(message)
 
 def handle_response(event, response):
