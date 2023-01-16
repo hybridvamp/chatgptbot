@@ -44,4 +44,4 @@
 <h2>Contribution and Pull Requests</h2>
 <p> Contributions and Pull Requests are most welcome. If you have any suggestions or improvements, please feel free to open an issue or submit a pull request.</p>
 <h2>Contact</h2>
-<p>For any queries and support, you can contact me on Telegram at <a href="https://t.me/hybridvamp">@hybridvamp</a></p>
+<p>For any queries and support, you can contact me on Telegram at <a href="https://t.me/hybrid_chat">@hybrid_chat</a></p>
