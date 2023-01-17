@@ -91,7 +91,7 @@ def handle_response(event, response):
         'title': 'ChatGPT Response',
         'content': [{'tag': 'p', 'children': [response.choices[0].text]}]
     }
-    r = requests.post('https://api.telegra.ph/createPage', headers=headers, json=data)
+    r = requests.post('https://api.graph.org/createPage', headers=headers, json=data)
     r_json = r.json()
     if r.status_code != 200 or not r_json['ok']:
         return "Error creating telegraph page"
