@@ -8,6 +8,8 @@ import requests
 api_keys = [os.environ.get("API_KEY1"), os.environ.get("API_KEY2"), os.environ.get("API_KEY3"), os.environ.get("API_KEY4"), os.environ.get("API_KEY5")]
 current_api_key = 0
 
+openai.api_key = api_keys[current_api_key]
+
 def switch_api_key():
     global current_api_key
     current_api_key = (current_api_key + 1) % len(api_keys)
