@@ -94,7 +94,7 @@ def handle_response(event, response):
     r = requests.post('https://api.graph.org/createPage', headers=headers, json=data)
     r_json = r.json()
     if r.status_code != 200 or not r_json['ok']:
-        return "Error creating telegraph page\n{r_json}"
+        return f"Error creating telegraph page\n{r_json}"
     return f"https://graph.org/{r_json['result']['path']}"
 
 # Run the bot
