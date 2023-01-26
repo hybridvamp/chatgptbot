@@ -39,7 +39,7 @@
   <li>API_KEY3 (optional)</li>
   <li>API_KEY4 (optional)</li>
   <li>API_KEY5 (optional)</li>
-  <li>TELEGRAPH_TOKEN (get telegraph token usibg the following link https://api.telegra.ph/createAccount?short_name=anyname&author_name=anyname</li>
+  <li>TELEGRAPH_TOKEN (get telegraph token usibg the following link https://api.telegra.ph/createAccount?short_name=anyname&author_name=anyname)</li>
 </ul>
 <p>Finally, you can run the bot by running the following command:</p>
 <pre>
